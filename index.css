@@ -136,9 +136,9 @@ a {
 [data-theme="light"] .fluid-bg::before,
 [data-theme="light"] .fluid-bg::after,
 [data-theme="light"] .fluid-bg-glow {
-    opacity: 0.12;
-    mix-blend-mode: multiply;
-    filter: blur(110px);
+    opacity: 0.28;
+    mix-blend-mode: normal;
+    filter: blur(120px);
 }
 
 [data-theme="dark"] .fluid-bg::before,
