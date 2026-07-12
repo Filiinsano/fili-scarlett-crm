@@ -498,7 +498,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (retellClient) {
             try {
                 // Hacer petición a tu servidor backend para crear el token de acceso seguro
-                const resToken = await fetch('http://localhost:3000/api/create-web-call', {
+                const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+                    ? 'http://localhost:3000'
+                    : (window.location.protocol === 'file:')
+                        ? 'https://fili-scarlett-crm.onrender.com'
+                        : window.location.origin;
+
+                const resToken = await fetch(`${API_BASE_URL}/api/create-web-call`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' }
                 });

@@ -6,6 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inicializar iconos de Lucide
     lucide.createIcons();
 
+    const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+        ? 'http://localhost:3000'
+        : (window.location.protocol === 'file:')
+            ? 'https://fili-scarlett-crm.onrender.com'
+            : window.location.origin;
+
     // Estado global de datos (con datos semilla de reserva por si el backend no responde)
     let citasGlobal = [
         { id: 1, nombre: "Ana Gomez", servicio: "limpieza dental", fecha: "2026-07-09", hora: "10:00", nicho: "dentistas", estado: "Confirmada" },
@@ -104,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function cargarDatosDesdeServidor() {
         try {
             // Intentar cargar citas
-            const resCitas = await fetch('http://localhost:3000/api/citas');
+            const resCitas = await fetch(`${API_BASE_URL}/api/citas`);
             if (resCitas.ok) {
                 const dataCitas = await resCitas.json();
                 if (dataCitas && dataCitas.length > 0) citasGlobal = dataCitas;
@@ -115,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Intentar cargar llamadas
-            const resLlamadas = await fetch('http://localhost:3000/api/llamadas');
+            const resLlamadas = await fetch(`${API_BASE_URL}/api/llamadas`);
             if (resLlamadas.ok) {
                 const dataLlamadas = await resLlamadas.json();
                 if (dataLlamadas && dataLlamadas.length > 0) llamadasGlobal = dataLlamadas;
@@ -450,7 +456,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Cargar prompt desde el servidor backend
     async function cargarPrompt() {
         try {
-            const res = await fetch('http://localhost:3000/api/agent-prompt');
+            const res = await fetch(`${API_BASE_URL}/api/agent-prompt`);
             if (res.ok) {
                 const data = await res.json();
                 if (data.prompt) {
@@ -469,7 +475,7 @@ document.addEventListener('DOMContentLoaded', () => {
             savePromptBtn.innerHTML = `Guardando...`;
             
             try {
-                const res = await fetch('http://localhost:3000/api/agent-prompt', {
+                const res = await fetch(`${API_BASE_URL}/api/agent-prompt`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ prompt: promptEditor.value })
