@@ -1380,4 +1380,14 @@ a {
     }
 }
 
-
+/* OPTIMIZACIÓN DE RENDIMIENTO MÓVIL EXTREMA */
+@media (max-width: 992px) {
+    * {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+    /* Aseguramos que elementos como el navbar que pierden su blur tengan fondo sólido para que sigan siendo legibles */
+    .navbar, .glass-card, .voice-phone-mockup, .chat-mockup-container {
+        background-color: var(--bg-card) !important;
+    }
+}
