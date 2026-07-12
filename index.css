@@ -1,0 +1,1356 @@
+/* 
+   Scarlett - Sistema de Diseño y Estilos Premium (Vanilla CSS)
+   
+   Felipe, en este archivo CSS definimos toda la "ropa" de nuestra página web:
+   los colores, las fuentes, los espacios, las animaciones y cómo se adaptan
+   los componentes en pantallas de teléfonos y computadoras.
+*/
+
+/* 1. CONFIGURACIÓN DE FUENTES Y CONFIGURACIÓN GENERAL */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* 2. VARIABLES DE DISEÑO (Tokens)
+   Usamos variables CSS para que sea facilísimo cambiar colores o estilos globales.
+   Definimos dos temas: Tema Claro (Hueso) y Tema Oscuro (Obsidiana).
+*/
+:root {
+    /* Fuentes */
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Tema Claro por Defecto (Hueso/Bone) */
+    --bg-color: hsl(60, 20%, 97%);
+    --bg-card: hsla(0, 0%, 100%, 0.8);
+    --bg-card-hover: hsla(0, 0%, 100%, 0.95);
+    --text-color: hsl(240, 10%, 4%);
+    --text-mute: hsl(240, 4%, 40%);
+    --border-color: rgba(0, 0, 0, 0.08);
+    
+    /* El Color de Acento: Un tono naranja-cobre cálido y premium */
+    --accent: hsl(14, 85%, 50%);
+    --accent-rgb: 230, 80, 30;
+    --accent-light: hsla(14, 85%, 50%, 0.1);
+    
+    /* Sombras suaves y elegantes */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 20px 50px rgba(14, 14, 14, 0.12);
+    
+    /* Bordes redondeados */
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
+    --radius-full: 9999px;
+
+    /* Transición estándar */
+    --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Selector para activar el Tema Oscuro (Obsidiana) */
+[data-theme="dark"] {
+    --bg-color: hsl(240, 10%, 4%);
+    --bg-card: hsla(240, 10%, 8%, 0.75);
+    --bg-card-hover: hsla(240, 10%, 12%, 0.9);
+    --text-color: hsl(60, 20%, 97%);
+    --text-mute: hsl(240, 4%, 70%);
+    --border-color: rgba(255, 255, 255, 0.1);
+    
+    --accent: hsl(14, 90%, 55%);
+    --accent-light: hsla(14, 90%, 55%, 0.15);
+    --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+/* 3. RESETEO DE ESTILOS BÁSICOS
+   Quitamos los márgenes por defecto de los navegadores para tener control absoluto.
+*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* 4. FONDO DE SEDA FLUIDA ANIMADO (VIDEO LOOP)
+   Implementa el fondo de video en alta definición que fluye continuamente,
+   y le añade una capa de oscurecimiento o iluminación según el tema.
+*/
+.fluid-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    opacity: 0.95; /* Incrementado de 0.8 a 0.95 para mayor visibilidad */
+    pointer-events: none;
+    transform-origin: 50% 40%;
+    transition: opacity 0.5s ease, transform 0.1s ease;
+}
+
+.video-background {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    will-change: transform;
+    transition: filter 0.5s ease;
+    filter: contrast(1.02); /* Añadido un contraste sutil en modo claro */
+}
+
+/* Filtro de brillo para modo oscuro */
+[data-theme="dark"] .video-background {
+    filter: brightness(0.55) contrast(1.1); /* Brillo aumentado de 0.4 a 0.55 */
+}
+
+/* Capa de mezcla degradada sobre el video para suavizar el fondo y fundirlo con las secciones */
+.fluid-overlay {
+    position: absolute;
+    inset: 0;
+    /* Degradado modificado para comenzar en 55%, dejando el video 100% visible en la parte superior */
+    background: linear-gradient(to bottom, transparent 55%, var(--bg-color) 100%);
+    transition: background 0.5s ease;
+}
+
+
+
+/* 5. DISEÑO DE LA BARRA DE NAVEGACIÓN (Navbar)
+   Aplicamos Glassmorphism (efecto de cristal esmerilado con desenfoque).
+*/
+.navbar {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1200px;
+    height: 70px;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    border-radius: var(--radius-full);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-smooth);
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.logo span {
+    color: var(--accent);
+}
+
+.nav-links {
+    display: flex;
+    gap: 8px;
+    list-style: none;
+}
+
+.nav-links a {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: var(--radius-full);
+    transition: var(--transition-smooth);
+}
+
+.nav-links a:hover {
+    background-color: var(--border-color);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Botón de alternar Tema Oscuro/Claro */
+.theme-toggle-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-color);
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    transition: var(--transition-smooth);
+}
+
+.theme-toggle-btn:hover {
+    background-color: var(--border-color);
+    transform: scale(1.05);
+}
+
+/* Botones Premium */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    border: none;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.btn-primary {
+    background-color: var(--accent);
+    color: white;
+    box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(var(--accent-rgb), 0.45);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--border-color);
+    transform: translateY(-2px);
+}
+
+/* 6. SECCIÓN HERO (Presentación Principal) */
+.hero {
+    min-h: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 140px 24px 80px 24px;
+    position: relative;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: var(--accent-light);
+    color: var(--accent);
+    border: 1px solid rgba(var(--accent-rgb), 0.15);
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+}
+
+.badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    animation: latido 1.5s infinite;
+}
+
+@keyframes latido {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.6); opacity: 0.5; }
+}
+
+.hero-title {
+    font-size: clamp(40px, 8vw, 96px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    max-width: 1000px;
+    margin-bottom: 24px;
+}
+
+.hero-title span {
+    display: block;
+}
+
+.hero-title .glow-text {
+    background: linear-gradient(135deg, var(--text-color) 30%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-desc {
+    font-size: clamp(15px, 2vw, 19px);
+    color: var(--text-mute);
+    max-width: 600px;
+    margin-bottom: 40px;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 60px;
+}
+
+/* Tarjetas rápidas (Highlights de Hero) */
+.hero-highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    width: 100%;
+    max-width: 960px;
+}
+
+.highlight-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 16px 20px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-smooth);
+}
+
+.highlight-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-md);
+}
+
+.highlight-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    background-color: var(--accent-light);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.highlight-text {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* 7. SECCIÓN DEL SIMULADOR DE CHAT
+   Aquí mostramos de forma interactiva cómo chatea "Scarlett"
+*/
+.section {
+    padding: 100px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-title {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.section-desc {
+    color: var(--text-mute);
+    font-size: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.chat-container {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 40px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(12px);
+}
+
+@media (max-width: 868px) {
+    .chat-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.chat-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.chat-info h3 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.chat-info p {
+    color: var(--text-mute);
+    margin-bottom: 24px;
+}
+
+/* Botones para seleccionar respuestas automáticas del demo */
+.demo-prompts {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.prompt-btn {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 14px 20px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    transition: var(--transition-smooth);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.prompt-btn:hover {
+    border-color: var(--accent);
+    background-color: var(--accent-light);
+    transform: translateX(4px);
+}
+
+.prompt-btn i {
+    color: var(--accent);
+    opacity: 0;
+    transition: var(--transition-smooth);
+}
+
+.prompt-btn:hover i {
+    opacity: 1;
+    transform: translateX(4px);
+}
+
+/* Ventana de Chat interactiva (Lado derecho del contenedor) */
+.chat-window {
+    background: rgba(0,0,0,0.03);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    height: 480px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+[data-theme="dark"] .chat-window {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.chat-window-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-card);
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.status-indicator {
+    font-size: 12px;
+}
+
+.status-indicator .status-name {
+    font-weight: 600;
+    display: block;
+}
+
+.status-indicator .status-text {
+    font-size: 10px;
+    color: #10b981;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.status-indicator .status-text::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #10b981;
+    display: inline-block;
+    animation: latido 1.5s infinite;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.msg {
+    max-width: 80%;
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    line-height: 1.5;
+    animation: aparecerMensaje 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes aparecerMensaje {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.msg-bot {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+
+.msg-user {
+    background-color: var(--accent);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+
+.msg-writing {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 18px;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--text-color);
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: escribirDot 1.4s infinite;
+}
+
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes escribirDot {
+    0%, 100% { transform: translateY(0); opacity: 0.3; }
+    50% { transform: translateY(-4px); opacity: 1; }
+}
+
+.chat-input-area {
+    padding: 16px 20px;
+    background: var(--bg-card);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 12px;
+}
+
+.chat-input {
+    flex: 1;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding: 12px 18px;
+    border-radius: var(--radius-full);
+    font-size: 14px;
+    font-family: inherit;
+    transition: var(--transition-smooth);
+}
+
+.chat-input:focus {
+    border-color: var(--accent);
+}
+
+.chat-send-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--accent);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-smooth);
+}
+
+.chat-send-btn:hover {
+    transform: scale(1.05);
+    background-color: hsl(14, 90%, 45%);
+}
+
+/* 8. SECCIÓN CALCULADORA DE ROI
+   Permite al cliente calcular cuántos ingresos pierde y cuántos recupera.
+*/
+.roi-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    box-shadow: var(--shadow-lg);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+}
+
+@media (max-width: 868px) {
+    .roi-card {
+        grid-template-columns: 1fr;
+        padding: 24px;
+    }
+}
+
+.roi-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.slider-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.slider-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.slider-val {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.slider-input {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: var(--border-color);
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+.slider-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(var(--accent-rgb), 0.3);
+    transition: var(--transition-smooth);
+}
+
+.slider-input::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+/* Resultados del ROI */
+.roi-results {
+    background: rgba(var(--accent-rgb), 0.03);
+    border: 1px solid rgba(var(--accent-rgb), 0.1);
+    border-radius: var(--radius-md);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.result-badge {
+    background-color: var(--accent-light);
+    color: var(--accent);
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+}
+
+.result-number {
+    font-size: 64px;
+    font-weight: 800;
+    color: var(--text-color);
+    line-height: 1;
+    margin-bottom: 8px;
+    letter-spacing: -0.04em;
+}
+
+.result-lbl {
+    font-size: 14px;
+    color: var(--text-mute);
+    margin-bottom: 24px;
+}
+
+.roi-stats {
+    display: flex;
+    gap: 32px;
+    width: 100%;
+    border-top: 1px solid var(--border-color);
+    padding-top: 24px;
+}
+
+.stat-item {
+    flex: 1;
+}
+
+.stat-val {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.stat-lbl {
+    font-size: 11px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+}
+
+/* 9. TESTIMONIOS INFINITOS (MARQUEES CRUZADOS)
+   Carruseles de reseñas que se desplazan infinitamente de izquierda a derecha
+   y de derecha a izquierda.
+*/
+.marquee-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    overflow: hidden;
+    padding: 20px 0;
+}
+
+.marquee-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+}
+
+/* Carrusel Izquierda */
+.marquee-track-left {
+    animation: scrollLeft 50s linear infinite;
+}
+
+/* Carrusel Derecha */
+.marquee-track-right {
+    animation: scrollRight 50s linear infinite;
+}
+
+.marquee-container:hover .marquee-track {
+    animation-play-state: paused;
+}
+
+@keyframes scrollLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@keyframes scrollRight {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+}
+
+.testimonial-card {
+    width: 360px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: var(--transition-smooth);
+}
+
+.testimonial-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-md);
+}
+
+.testimonial-quote {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+.testimonial-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), hsl(280, 80%, 50%));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.user-name {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.user-role {
+    font-size: 11px;
+    color: var(--text-mute);
+}
+
+/* Fondo degradado difuminado a los lados del carrusel */
+.marquee-fade {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    background: linear-gradient(to right, var(--bg-color) 0%, transparent 10%, transparent 90%, var(--bg-color) 100%);
+    z-index: 2;
+}
+
+/* 10. PRECIOS */
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.pricing-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: var(--transition-smooth);
+}
+
+.pricing-card.premium {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-lg);
+    transform: scale(1.03);
+}
+
+@media (max-width: 868px) {
+    .pricing-card.premium {
+        transform: scale(1);
+    }
+}
+
+.pricing-card:hover {
+    transform: translateY(-8px);
+}
+
+.pricing-card.premium:hover {
+    transform: translateY(-8px) scale(1.03);
+}
+
+.pricing-badge {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background-color: var(--accent);
+    color: white;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.pricing-header h3 {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.pricing-desc {
+    font-size: 14px;
+    color: var(--text-mute);
+    margin-bottom: 24px;
+}
+
+.pricing-price {
+    font-family: var(--font-heading);
+    font-size: 56px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 4px;
+    letter-spacing: -0.03em;
+}
+
+.pricing-price span {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-mute);
+}
+
+.pricing-features {
+    list-style: none;
+    margin: 32px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pricing-features li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+}
+
+.pricing-features i {
+    color: #10b981;
+}
+
+/* 11. FOOTER */
+.footer {
+    border-top: 1px solid var(--border-color);
+    padding: 48px 24px;
+    background: var(--bg-card);
+    text-align: center;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+@media (max-width: 600px) {
+    .footer-container {
+        flex-direction: column;
+    }
+}
+
+.footer-logo {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.footer-logo span {
+    color: var(--accent);
+}
+
+.footer-copy {
+    font-size: 13px;
+    color: var(--text-mute);
+}
+
+.footer-links {
+    display: flex;
+    gap: 20px;
+}
+
+.footer-links a {
+    font-size: 13px;
+    color: var(--text-mute);
+    transition: var(--transition-smooth);
+}
+
+.footer-links a:hover {
+    color: var(--accent);
+}
+
+/* ==========================================
+   12. ANIMACIONES AL CARGAR Y AL HACER SCROLL
+   ========================================== */
+
+/* La clase .reveal inicia invisible y desplazada. La clase .in (puesta por JS) la anima a su lugar original */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+}
+
+.reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Animación fluida de ascenso al cargar (para el Hero) */
+@keyframes card-rise {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card-rise {
+    opacity: 0;
+    animation: card-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Clases de retraso escalonado (Staggered Delay) */
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.25s; }
+.delay-3 { animation-delay: 0.4s; }
+.delay-4 { animation-delay: 0.55s; }
+.delay-5 { animation-delay: 0.7s; }
+.delay-6 { animation-delay: 0.85s; }
+
+/* ==========================================
+   13. SELECTOR DE NICHOS / INDUSTRIAS
+   ========================================== */
+.niche-selector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.niche-selector-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-mute);
+    margin-bottom: 16px;
+}
+
+.niche-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 8px;
+    border-radius: var(--radius-full);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.niche-tab {
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: var(--transition-smooth);
+}
+
+.niche-tab:hover {
+    background-color: var(--border-color);
+}
+
+.niche-tab.active {
+    background-color: var(--accent);
+    color: white;
+    box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.2);
+}
+
+/* ==========================================
+   14. WIDGET SIMULADOR DE LLAMADAS POR VOZ
+   ========================================== */
+.voice-container {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    margin-top: 60px;
+}
+
+@media (max-width: 868px) {
+    .voice-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.voice-phone-mockup {
+    background: rgba(0,0,0,0.02);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 420px;
+    position: relative;
+    overflow: hidden;
+}
+
+[data-theme="dark"] .voice-phone-mockup {
+    background: rgba(255,255,255,0.01);
+}
+
+.voice-phone-header {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.voice-phone-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.voice-phone-status {
+    font-size: 12px;
+    color: var(--text-mute);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+/* Onda de sonido (Ecualizador) */
+.sound-wave {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 50px;
+    width: 100%;
+}
+
+.sound-bar {
+    width: 6px;
+    height: 100%;
+    background-color: var(--accent);
+    border-radius: var(--radius-full);
+    transform: scaleY(0.15);
+    transform-origin: center;
+    transition: var(--transition-smooth);
+}
+
+/* Al estar la llamada activa, animamos las barras individuales */
+.sound-wave.active .sound-bar {
+    animation: bounce-bar 1.2s ease-in-out infinite alternate;
+}
+
+.sound-bar:nth-child(1) { animation-delay: 0.1s; }
+.sound-bar:nth-child(2) { animation-delay: 0.3s; }
+.sound-bar:nth-child(3) { animation-delay: 0.5s; }
+.sound-bar:nth-child(4) { animation-delay: 0.2s; }
+.sound-bar:nth-child(5) { animation-delay: 0.4s; }
+.sound-bar:nth-child(6) { animation-delay: 0.6s; }
+.sound-bar:nth-child(7) { animation-delay: 0.15s; }
+.sound-bar:nth-child(8) { animation-delay: 0.35s; }
+
+@keyframes bounce-bar {
+    0% { transform: scaleY(0.15); }
+    100% { transform: scaleY(1.0); }
+}
+
+.voice-display {
+    width: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    flex: 1;
+    margin: 16px 0;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+}
+
+.voice-line {
+    font-size: 13px;
+    line-height: 1.5;
+    animation: aparecerMensaje 0.4s ease forwards;
+}
+
+.voice-bot {
+    color: var(--accent);
+}
+
+.voice-caller {
+    color: var(--text-color);
+}
+
+.voice-sys-msg {
+    color: var(--text-mute);
+    font-size: 13px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 40px;
+}
+
+/* ==========================================
+   15. SECCIÓN DE PREGUNTAS FRECUENTES (FAQs)
+   ========================================== */
+.faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.faq-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: var(--transition-smooth);
+}
+
+.faq-question {
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    user-select: none;
+    transition: var(--transition-smooth);
+}
+
+.faq-question:hover {
+    background-color: var(--border-color);
+}
+
+.faq-question i {
+    transition: transform 0.4s ease;
+    color: var(--accent);
+}
+
+.faq-answer {
+    padding: 0 24px;
+    max-height: 0;
+    overflow: hidden;
+    font-size: 14px;
+    color: var(--text-mute);
+    line-height: 1.6;
+    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s ease;
+}
+
+.faq-item.active {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-md);
+}
+
+.faq-item.active .faq-question i {
+    transform: rotate(180deg);
+}
+
+.faq-item.active .faq-answer {
+    padding: 0 24px 24px 24px;
+    max-height: 200px;
+}
+
+

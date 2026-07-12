@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scarlett CRM - Panel de Administración</title>
+    <!-- Google Fonts: Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body class="dark-mode">
+    <div class="app-container">
+        <!-- BARRA LATERAL (SIDEBAR) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">Scarlett<span>.</span></div>
+                <div class="badge">CRM PRO</div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-tab="overview">
+                    <i data-lucide="layout-dashboard"></i> Resumen General
+                </button>
+                <button class="nav-btn" data-tab="citas">
+                    <i data-lucide="calendar"></i> Citas Agendadas
+                </button>
+                <button class="nav-btn" data-tab="llamadas">
+                    <i data-lucide="phone-call"></i> Registro de Llamadas
+                </button>
+                <button class="nav-btn" data-tab="config">
+                    <i data-lucide="settings"></i> Configuración Agente
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="index.html" class="back-link">
+                    <i data-lucide="arrow-left"></i> Volver a la Web
+                </a>
+            </div>
+        </aside>
+
+        <!-- PANEL PRINCIPAL (MAIN CONTENT) -->
+        <main class="main-content">
+            <!-- HEADER DEL PANEL -->
+            <header class="main-header">
+                <div class="header-title">
+                    <h1 id="tab-title">Resumen General</h1>
+                    <p id="tab-subtitle">Monitoreo de recepcionista de IA en tiempo real</p>
+                </div>
+                <div class="header-actions">
+                    <div class="status-indicator online">
+                        <span class="pulse-dot"></span>
+                        Fili (IA) Online
+                    </div>
+                </div>
+            </header>
+
+            <!-- CONTENIDO DE PESTAÑAS -->
+            <div class="tab-content active" id="tab-overview">
+                <!-- METRICAS GENERALES -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon"><i data-lucide="phone"></i></div>
+                        <div class="metric-data">
+                            <h3>Llamadas Totales</h3>
+                            <p class="value" id="metric-calls">0</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon accent"><i data-lucide="calendar-check"></i></div>
+                        <div class="metric-data">
+                            <h3>Citas Agendadas</h3>
+                            <p class="value" id="metric-appointments">0</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon success"><i data-lucide="trending-up"></i></div>
+                        <div class="metric-data">
+                            <h3>Tasa de Conversión</h3>
+                            <p class="value" id="metric-rate">0%</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon info"><i data-lucide="clock"></i></div>
+                        <div class="metric-data">
+                            <h3>Minutos de Llamada</h3>
+                            <p class="value" id="metric-minutes">0m</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTENIDO MIXTO: RECIENTES -->
+                <div class="dashboard-split">
+                    <div class="split-card flex-2">
+                        <div class="card-header">
+                            <h2>Próximas Citas</h2>
+                            <button class="text-btn" onclick="switchTab('citas')">Ver todas</button>
+                        </div>
+                        <div class="table-container">
+                            <table id="table-citas-mini">
+                                <thead>
+                                    <tr>
+                                        <th>Paciente</th>
+                                        <th>Servicio</th>
+                                        <th>Fecha</th>
+                                        <th>Hora</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Dinámico -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="split-card flex-1">
+                        <div class="card-header">
+                            <h2>Última Llamada</h2>
+                        </div>
+                        <div class="last-call-card" id="last-call-preview">
+                            <div class="call-meta">
+                                <div class="avatar-ph"><i data-lucide="user"></i></div>
+                                <div>
+                                    <h4 class="caller-name">Juan Pérez</h4>
+                                    <span class="call-time">Hoy, hace 5 mins</span>
+                                </div>
+                            </div>
+                            <div class="summary-box">
+                                <p class="summary-text">"Cita agendada para limpieza dental..."</p>
+                            </div>
+                            <button class="btn btn-primary btn-sm" id="btn-inspect-last">
+                                <i data-lucide="eye"></i> Inspeccionar llamada
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTENIDO DE PESTAÑA: CITAS -->
+            <div class="tab-content" id="tab-citas">
+                <div class="table-card">
+                    <div class="filter-bar">
+                        <div class="search-box">
+                            <i data-lucide="search"></i>
+                            <input type="text" id="search-citas" placeholder="Buscar paciente o servicio...">
+                        </div>
+                        <div class="select-box">
+                            <select id="filter-nicho">
+                                <option value="all">Todas las Industrias</option>
+                                <option value="dentistas">🦷 Dental</option>
+                                <option value="spas">💆 Spas / Estética</option>
+                                <option value="restaurantes">🍕 Restaurantes</option>
+                                <option value="abogados">⚖️ Abogados</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table id="table-citas-full">
+                            <thead>
+                                <tr>
+                                    <th>Paciente</th>
+                                    <th>Servicio</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    <th>Industria</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dinámico -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTENIDO DE PESTAÑA: LLAMADAS -->
+            <div class="tab-content" id="tab-llamadas">
+                <div class="calls-layout">
+                    <!-- LISTA DE LLAMADAS -->
+                    <div class="calls-list-card">
+                        <div class="search-box mb-4">
+                            <i data-lucide="search"></i>
+                            <input type="text" id="search-calls" placeholder="Buscar en resúmenes...">
+                        </div>
+                        <div class="calls-list-container" id="calls-list">
+                            <!-- Dinámico -->
+                        </div>
+                    </div>
+
+                    <!-- INSPECTOR DE AUDIO Y TRANSCRIPCIÓN -->
+                    <div class="inspector-card" id="inspector-card">
+                        <div class="inspector-empty">
+                            <i data-lucide="phone-incoming"></i>
+                            <h3>Selecciona una llamada</h3>
+                            <p>Haz clic en cualquier llamada del historial para reproducir el audio y ver la transcripción detallada de la IA.</p>
+                        </div>
+                        
+                        <div class="inspector-content hidden">
+                            <!-- Cabecera -->
+                            <div class="inspector-header">
+                                <div class="inspector-meta">
+                                    <h3 class="inspector-name">Juan Pérez</h3>
+                                    <span class="inspector-date">Hoy, hace 5 minutos</span>
+                                </div>
+                                <div class="inspector-badge" id="inspector-duration">Duración: 45s</div>
+                            </div>
+
+                            <!-- Reproductor de Audio -->
+                            <div class="custom-audio-player">
+                                <audio id="inspector-audio" src=""></audio>
+                                <button class="play-btn" id="audio-play-btn">
+                                    <i data-lucide="play"></i>
+                                </button>
+                                <div class="player-progress">
+                                    <span class="current-time">00:00</span>
+                                    <div class="progress-bar-container" id="progress-container">
+                                        <div class="progress-bar" id="audio-progress"></div>
+                                    </div>
+                                    <span class="total-time">00:00</span>
+                                </div>
+                            </div>
+
+                            <!-- Resumen IA -->
+                            <div class="summary-section">
+                                <h4><i data-lucide="sparkles"></i> Análisis y Resumen de la IA</h4>
+                                <p class="inspector-summary-text">...</p>
+                            </div>
+
+                            <!-- Transcripción Chat -->
+                            <div class="transcript-section">
+                                <h4><i data-lucide="message-square"></i> Transcripción Completa</h4>
+                                <div class="chat-bubbles-container" id="inspector-transcript">
+                                    <!-- Dinámico -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTENIDO DE PESTAÑA: CONFIGURACIÓN -->
+            <div class="tab-content" id="tab-config">
+                <div class="table-card" style="max-width: 800px; margin: 0 auto;">
+                    <div class="card-header" style="margin-bottom: 24px;">
+                        <h2>Configuración del Sistema Prompt de Fili</h2>
+                    </div>
+                    
+                    <div class="config-form" style="display: flex; flex-direction: column; gap: 20px;">
+                        <div class="form-group" style="display: flex; flex-direction: column; gap: 8px;">
+                            <label for="prompt-editor" style="font-size: 14px; font-weight: 600; color: var(--text-secondary);">System Prompt Principal (Instrucciones de la IA):</label>
+                            <p style="font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.5; margin-bottom: 6px;">
+                                Aquí puedes definir la personalidad de Fili, las reglas de agendamiento (ej: no domingos), los precios de consulta y el manejo de objeciones. Al guardar, se actualizará directamente en Retell AI.
+                            </p>
+                            <textarea id="prompt-editor" style="width: 100%; height: 350px; background-color: rgba(255,255,255,0.02); border: 1px solid var(--card-border); border-radius: 12px; color: var(--text-primary); padding: 16px; font-size: 13px; line-height: 1.6; resize: vertical; outline: none; transition: border-color 0.3s;"></textarea>
+                        </div>
+                        
+                        <div class="form-actions" style="display: flex; justify-content: flex-end; gap: 12px; align-items: center;">
+                            <span id="save-status" style="font-size: 13px; color: var(--success); opacity: 0; transition: opacity 0.3s;">¡Guardado con éxito!</span>
+                            <button class="btn btn-primary" id="btn-save-prompt" style="width: auto; padding: 12px 24px;">
+                                <i data-lucide="save"></i> Guardar Cambios
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Script de lógica -->
+    <script src="dashboard.js"></script>
+</body>
+</html>

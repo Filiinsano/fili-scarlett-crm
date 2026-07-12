@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scarlett — Tu Asistente de IA Omnicanal que no suena a robot</title>
+    <meta name="description" content="Scarlett atiende llamadas, WhatsApp y redes sociales para tu negocio 24/7. Sincroniza con tu CRM y agenda citas de forma natural.">
+    
+    <!-- OpenGraph (SEO) -->
+    <meta property="og:title" content="Scarlett — Tu Asistente de IA Omnicanal que no suena a robot">
+    <meta property="og:description" content="Atención a clientes 24/7 en llamadas, WhatsApp y redes sociales. Incrementa tus citas y reduce cancelaciones.">
+    <meta property="og:type" content="website">
+    
+    <!-- CSS del Sistema de Diseño -->
+    <link rel="stylesheet" href="index.css">
+    
+    <!-- Cargar Lucide Icons desde CDN para tener iconos limpios y profesionales -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <!-- FONDO DE SEDA FLUIDO ANIMADO (VIDEO Y CAPA DE DISEÑO) -->
+    <div class="fluid-bg" id="fluid-bg">
+        <video autoplay loop muted playsinline poster="assets/hero-poster.png" class="video-background">
+            <source src="assets/hero-silk.mp4" type="video/mp4">
+        </video>
+        <div class="fluid-overlay"></div>
+    </div>
+
+
+    <!-- BARRA DE NAVEGACIÓN (NAVBAR) -->
+    <header>
+        <nav class="navbar">
+            <a href="#" class="logo">
+                Scarlett<span>.</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#como">Cómo funciona</a></li>
+                <li><a href="#chat-demo">Prueba el Chat</a></li>
+                <li><a href="#roi-calc">Calculadora ROI</a></li>
+                <li><a href="#precios">Precios</a></li>
+            </ul>
+            <div class="nav-actions">
+                <!-- Botón para alternar modo oscuro/claro -->
+                <button class="theme-toggle-btn" id="theme-toggle" title="Cambiar tema">
+                    <i data-lucide="moon"></i>
+                </button>
+                <a href="dashboard.html" class="btn btn-secondary" style="margin-right: 10px;">Panel CRM</a>
+                <a href="#precios" class="btn btn-primary">Agendar Demo</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- SECCIÓN HERO -->
+        <section class="hero" id="hero">
+            <div class="badge card-rise delay-1">
+                <span class="badge-dot"></span>
+                Scarlett Omnicanal ya disponible
+            </div>
+            
+            <h1 class="hero-title card-rise delay-2">
+                <span>Scarlett atiende tu negocio 24/7</span>
+                <span class="glow-text">sin sonar a robot</span>
+            </h1>
+            
+            <p class="hero-desc card-rise delay-3">
+                Contesta llamadas, chatea por WhatsApp y responde en redes sociales de forma humana. Agenda clientes directamente en tu calendario y sincroniza todo con tu CRM.
+            </p>
+            
+            <div class="hero-actions card-rise delay-4">
+                <a href="#precios" class="btn btn-primary">
+                    Comenzar ahora
+                    <i data-lucide="arrow-right"></i>
+                </a>
+                <a href="#chat-demo" class="btn btn-secondary">Probar chat demo</a>
+            </div>
+            
+            <!-- Highlights rápidos (Tarjetas de propuesta de valor) -->
+            <div class="hero-highlights card-rise delay-5">
+                <div class="highlight-card">
+                    <div class="highlight-icon">
+                        <i data-lucide="mic"></i>
+                    </div>
+                    <div class="highlight-text">Voz humana indistinguible</div>
+                </div>
+                <div class="highlight-card">
+                    <div class="highlight-icon">
+                        <i data-lucide="message-square"></i>
+                    </div>
+                    <div class="highlight-text">WhatsApp & Redes Sociales 24/7</div>
+                </div>
+                <div class="highlight-card">
+                    <div class="highlight-icon">
+                        <i data-lucide="calendar"></i>
+                    </div>
+                    <div class="highlight-text">Agendamiento inteligente en CRM</div>
+                </div>
+                <div class="highlight-card">
+                    <div class="highlight-icon">
+                        <i data-lucide="trending-down"></i>
+                    </div>
+                    <div class="highlight-text">Reduce no-shows hasta un 40%</div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- SELECTOR DE NICHOS -->
+        <div class="niche-selector reveal">
+            <span class="niche-selector-title">Personaliza la demo para tu tipo de negocio:</span>
+            <div class="niche-tabs">
+                <button class="niche-tab active" data-niche="dentistas">🦷 Dental</button>
+                <button class="niche-tab" data-niche="spas">💆 Spas y Estética</button>
+                <button class="niche-tab" data-niche="restaurantes">🍕 Restaurantes</button>
+                <button class="niche-tab" data-niche="abogados">⚖️ Abogados y Consultores</button>
+            </div>
+        </div>
+
+        <!-- SECCIÓN DE CARACTERÍSTICAS / PROBLEMAS (CÓMO FUNCIONA) -->
+        <section class="section" id="como">
+            <div class="section-header reveal">
+                <div class="badge">El Problema vs La Solución</div>
+                <h2 class="section-title">¿Por qué automatizar con Scarlett?</h2>
+                <p class="section-desc">Los clientes modernos no esperan. Si no contestas en 5 minutos, le escriben a tu competencia. Scarlett se asegura de que siempre estés disponible.</p>
+            </div>
+            
+            <!-- Reutilizaremos un grid elegante para mostrar los 3 pilares -->
+            <div class="hero-highlights reveal" style="max-width: 1200px; margin: 0 auto; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+                <div class="highlight-card" style="flex-direction: column; align-items: flex-start; padding: 32px; gap: 20px;">
+                    <div class="highlight-icon" style="width: 56px; height: 56px; border-radius: var(--radius-md);">
+                        <i data-lucide="clock"></i>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 20px; margin-bottom: 8px;">Disponibilidad 24/7</h3>
+                        <p style="font-size: 14px; color: var(--text-mute); font-weight: 400;">Responde llamadas e Instagram DMs a las 3:00 AM, fines de semana o días festivos sin necesidad de personal de guardia.</p>
+                    </div>
+                </div>
+                
+                <div class="highlight-card" style="flex-direction: column; align-items: flex-start; padding: 32px; gap: 20px;">
+                    <div class="highlight-icon" style="width: 56px; height: 56px; border-radius: var(--radius-md);">
+                        <i data-lucide="zap"></i>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 20px; margin-bottom: 8px;">Respuestas Instantáneas</h3>
+                        <p style="font-size: 14px; color: var(--text-mute); font-weight: 400;">Olvídate del tiempo de espera. Scarlett califica prospectos, resuelve dudas frecuentes y agenda la cita en menos de 10 segundos.</p>
+                    </div>
+                </div>
+                
+                <div class="highlight-card" style="flex-direction: column; align-items: flex-start; padding: 32px; gap: 20px;">
+                    <div class="highlight-icon" style="width: 56px; height: 56px; border-radius: var(--radius-md);">
+                        <i data-lucide="refresh-cw"></i>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 20px; margin-bottom: 8px;">Sincronización Total</h3>
+                        <p style="font-size: 14px; color: var(--text-mute); font-weight: 400;">Toda cita agendada se sincroniza al instante con Google Calendar, GoHighLevel o tu CRM favorito, enviando recordatorios automáticos por WhatsApp.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: SIMULADOR DE CHAT INTERACTIVO -->
+        <section class="section" id="chat-demo">
+            <div class="section-header reveal">
+                <div class="badge">Demo Interactiva</div>
+                <h2 class="section-title">Pruébala tú mismo ahora</h2>
+                <p class="section-desc">Haz clic en una de las preguntas de ejemplo a continuación o escribe tu propio mensaje para ver cómo Scarlett procesa y responde de forma natural en segundos.</p>
+            </div>
+            
+            <div class="chat-container reveal">
+                <div class="chat-info">
+                    <h3>Conversaciones inteligentes en tiempo real</h3>
+                    <p>Haz clic en cualquiera de estas situaciones comunes para simular un chat con Scarlett y observar cómo agenda o resuelve inquietudes.</p>
+                    
+                    <div class="demo-prompts">
+                        <button class="prompt-btn" data-message="Hola, me gustaría agendar una cita para un tratamiento dental mañana por la tarde.">
+                            <span>📅 Agendar una cita médica</span>
+                            <i data-lucide="chevron-right"></i>
+                        </button>
+                        <button class="prompt-btn" data-message="¿Qué servicios ofrecen y cuáles son sus precios de consultoría?">
+                            <span>💼 Preguntar por servicios y precios</span>
+                            <i data-lucide="chevron-right"></i>
+                        </button>
+                        <button class="prompt-btn" data-message="Tuve un problema con mi pago y quiero saber cómo solucionarlo.">
+                            <span>🛠 Soporte y aclaraciones</span>
+                            <i data-lucide="chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Ventana de chat -->
+                <div class="chat-window">
+                    <div class="chat-window-header">
+                        <div class="avatar">A</div>
+                        <div class="status-indicator">
+                            <span class="status-name">Scarlett</span>
+                            <span class="status-text">En línea</span>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-messages" id="chat-messages">
+                        <!-- Mensaje de bienvenida inicial -->
+                        <div class="msg msg-bot">
+                            ¡Hola! Soy Scarlett, tu asistente virtual 24/7. ¿En qué puedo ayudarte o qué te gustaría agendar hoy?
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-area">
+                        <input type="text" id="chat-input" class="chat-input" placeholder="Escribe un mensaje aquí...">
+                        <button id="chat-send" class="chat-send-btn">
+                            <i data-lucide="send"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: DEMO DE LLAMADA POR VOZ -->
+        <section class="section reveal" id="voice-demo">
+            <div class="section-header">
+                <div class="badge">Demo de Voz</div>
+                <h2 class="section-title">Escucha cómo habla Scarlett</h2>
+                <p class="section-desc">Scarlett también atiende llamadas telefónicas. Inicia la simulación de llamada abajo para escuchar cómo gestiona la conversación y ver la transcripción en vivo.</p>
+            </div>
+            
+            <div class="voice-container">
+                <div class="chat-info">
+                    <h3>Atención telefónica de calidad humana</h3>
+                    <p>Nuestra IA modula el tono de voz, maneja silencios y pausas naturales de forma realista. Haz clic en el botón para simular una llamada de cliente.</p>
+                    <button id="voice-play" class="btn btn-primary" style="margin-top: 10px; width: fit-content; padding: 14px 28px;">
+                        <i data-lucide="phone"></i>
+                        Iniciar Llamada
+                    </button>
+                </div>
+                
+                <!-- Mockup de Teléfono -->
+                <div class="voice-phone-mockup">
+                    <div class="voice-phone-header">
+                        <div class="voice-phone-title">Llamada de Demo</div>
+                        <div class="voice-phone-status" id="voice-status">
+                            <i data-lucide="shield-check" style="color: #10b981; width: 14px; height: 14px;"></i>
+                            Conexión segura
+                        </div>
+                    </div>
+                    
+                    <!-- Transcripción dinámica -->
+                    <div class="voice-display" id="voice-transcript">
+                        <!-- El texto fluye aquí desde JS -->
+                    </div>
+                    
+                    <!-- Ecualizador de onda sonora -->
+                    <div class="sound-wave" id="sound-wave">
+                        <span class="sound-bar"></span>
+                        <span class="sound-bar"></span>
+                        <span class="sound-bar"></span>
+                        <span class="sound-bar"></span>
+                        <span class="sound-bar"></span>
+                        <span class="sound-bar"></span>
+                        <span class="sound-bar"></span>
+                        <span class="sound-bar"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: CALCULADORA DE ROI INTERACTIVA -->
+        <section class="section" id="roi-calc">
+            <div class="section-header reveal">
+                <div class="badge">Calculadora Financiera</div>
+                <h2 class="section-title">¿Cuánto dinero estás perdiendo?</h2>
+                <p class="section-desc">Ajusta los sliders de acuerdo al volumen de tu negocio y descubre el impacto económico inmediato de recuperar las llamadas perdidas con Scarlett.</p>
+            </div>
+            
+            <div class="roi-card reveal">
+                <div class="roi-inputs">
+                    <!-- Slider 1: Llamadas perdidas -->
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <span>Llamadas/Chats perdidos al mes:</span>
+                            <span class="slider-val" id="val-calls">30</span>
+                        </div>
+                        <input type="range" id="input-calls" min="5" max="200" value="30" class="slider-input">
+                    </div>
+                    
+                    <!-- Slider 2: Valor promedio del cliente -->
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <span>Valor promedio del servicio/cliente:</span>
+                            <span class="slider-val" id="val-value">$80 USD</span>
+                        </div>
+                        <input type="range" id="input-value" min="20" max="1000" value="80" class="slider-input">
+                    </div>
+                    
+                    <!-- Slider 3: Tasa de conversión de llamadas en citas -->
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <span>Tasa estimada de agendamiento:</span>
+                            <span class="slider-val" id="val-conv">40%</span>
+                        </div>
+                        <input type="range" id="input-conv" min="10" max="90" value="40" class="slider-input">
+                    </div>
+                </div>
+                
+                <!-- Resultados del cálculo -->
+                <div class="roi-results">
+                    <span class="result-badge">Ingresos Mensuales Recuperados</span>
+                    <div class="result-number" id="roi-income">$960</div>
+                    <div class="result-lbl">dinero extra recuperado cada mes con Scarlett</div>
+                    
+                    <div class="roi-stats">
+                        <div class="stat-item">
+                            <div class="stat-val text-scarlet" style="color: var(--accent);" id="roi-yearly">$11,520</div>
+                            <div class="stat-lbl">Ingreso Anual</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-val" style="color: #10b981;" id="roi-multiplier">6.4x</div>
+                            <div class="stat-lbl">Retorno de Inversión (ROI)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: CARRUSEL DE TESTIMONIOS CRUCEROS -->
+        <section class="section" style="padding-bottom: 60px;">
+            <div class="section-header">
+                <div class="badge">Historias de Éxito</div>
+                <h2 class="section-title">Clínicas y Negocios que ya no pierden clientes</h2>
+                <p class="section-desc">Descubre cómo dueños de negocios en toda Latinoamérica han automatizado su soporte y triplicado sus agendamientos.</p>
+            </div>
+            
+            <div class="marquee-container">
+                <!-- Fila 1: Se mueve hacia la izquierda -->
+                <div class="marquee-track marquee-track-left">
+                    <!-- Tarjeta 1 -->
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote">"La primera semana agendó 45 citas fuera del horario de oficina. Nuestro equipo no lo podía creer."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">DR</div>
+                            <div>
+                                <div class="user-name">Dr. Ricardo Ruiz</div>
+                                <div class="user-role">Clínica Dental · CDMX</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tarjeta 2 -->
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote">"Los clientes de Instagram ahora reciben respuestas al instante y terminan reservando en WhatsApp. Un cambio total."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">MS</div>
+                            <div>
+                                <div class="user-name">Mariana Silva</div>
+                                <div class="user-role">Studio de Estética · Monterrey</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tarjeta 3 -->
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote">"Sincronizarlo con GoHighLevel fue súper fácil. Toda la información de las llamadas se llena sola."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">AL</div>
+                            <div>
+                                <div class="user-name">Alejandro Lopera</div>
+                                <div class="user-role">Agencia de Marketing · Bogotá</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tarjeta 4 -->
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote">"El soporte en inglés y español es perfecto. Mis clientes de Texas y México son atendidos en su idioma."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">EC</div>
+                            <div>
+                                <div class="user-name">Elena Cantú</div>
+                                <div class="user-role">Spa Médico · Monterrey</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Duplicados para ciclo infinito -->
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote">"La primera semana agendó 45 citas fuera del horario de oficina. Nuestro equipo no lo podía creer."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">DR</div>
+                            <div>
+                                <div class="user-name">Dr. Ricardo Ruiz</div>
+                                <div class="user-role">Clínica Dental · CDMX</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote">"Los clientes de Instagram ahora reciben respuestas al instante y terminan reservando en WhatsApp. Un cambio total."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">MS</div>
+                            <div>
+                                <div class="user-name">Mariana Silva</div>
+                                <div class="user-role">Studio de Estética · Monterrey</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Fila 2: Se mueve hacia la derecha -->
+                <div class="marquee-track marquee-track-right">
+                    <!-- Tarjeta 5 -->
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote">"Nuestros ausentes (no-shows) se redujeron un 35% gracias a las confirmaciones automáticas de WhatsApp."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">VP</div>
+                            <div>
+                                <div class="user-name">Lic. Valeria Pinto</div>
+                                <div class="user-role">Centro de Fisioterapia · Santiago</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tarjeta 6 -->
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote">"Scarlett contesta en menos de 3 segundos. Nunca más hemos vuelto a recibir una queja por llamada perdida."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">FO</div>
+                            <div>
+                                <div class="user-name">Felipe Ortiz</div>
+                                <div class="user-role">CEO Imperio Digital · Lima</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tarjeta 7 -->
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote">"Un retorno de inversión de más de 10 veces en el primer mes de uso. Indispensable para escalar."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">AH</div>
+                            <div>
+                                <div class="user-name">Andrés Herrera</div>
+                                <div class="user-role">Consultorio Médico · Guadalajara</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tarjeta 8 -->
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote">"Delegar el contestador de llamadas a Scarlett me ha permitido enfocarme en los pacientes reales en sala."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">SO</div>
+                            <div>
+                                <div class="user-name">Sofía Ochoa</div>
+                                <div class="user-role">Clínica Dermatológica · CDMX</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Duplicados para ciclo infinito -->
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote">"Nuestros ausentes (no-shows) se redujeron un 35% gracias a las confirmaciones automáticas de WhatsApp."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">VP</div>
+                            <div>
+                                <div class="user-name">Lic. Valeria Pinto</div>
+                                <div class="user-role">Centro de Fisioterapia · Santiago</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-quote">"Scarlett contesta en menos de 3 segundos. Nunca más hemos vuelto a recibir una queja por llamada perdida."</p>
+                        <div class="testimonial-user">
+                            <div class="user-avatar">FO</div>
+                            <div>
+                                <div class="user-name">Felipe Ortiz</div>
+                                <div class="user-role">CEO Imperio Digital · Lima</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="marquee-fade"></div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: PRECIOS -->
+        <section class="section" id="precios">
+            <div class="section-header reveal">
+                <div class="badge">Nuestros Planes</div>
+                <h2 class="section-title">Planes flexibles para cada etapa</h2>
+                <p class="section-desc">Sin contratos forzosos. Cancela o cambia de plan cuando lo necesites. Prueba gratuita de 14 días.</p>
+            </div>
+            
+            <div class="pricing-grid reveal">
+                <!-- Plan 1 -->
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Scarlett Starter</h3>
+                        <p class="pricing-desc">Perfecto para negocios locales que quieren automatizar sus canales de chat digitales.</p>
+                        <div class="pricing-price">$149 <span>/ mes USD</span></div>
+                    </div>
+                    
+                    <ul class="pricing-features">
+                        <li><i data-lucide="check-circle-2"></i> Scarlett por WhatsApp Business</li>
+                        <li><i data-lucide="check-circle-2"></i> Respuestas automáticas en Instagram DMs</li>
+                        <li><i data-lucide="check-circle-2"></i> Integración con Google Calendar</li>
+                        <li><i data-lucide="check-circle-2"></i> 500 chats/conversaciones al mes</li>
+                        <li><i data-lucide="check-circle-2"></i> Soporte estándar por email</li>
+                    </ul>
+                    
+                    <button class="btn btn-secondary" style="width: 100%; justify-content: center;">Comenzar Prueba</button>
+                </div>
+                
+                <!-- Plan 2 (Recomendado) -->
+                <div class="pricing-card premium">
+                    <span class="pricing-badge">Recomendado</span>
+                    <div class="pricing-header">
+                        <h3>Scarlett Growth</h3>
+                        <p class="pricing-desc">El poder total de la voz e integración omnicanal completa para clínicas y agencias.</p>
+                        <div class="pricing-price">$299 <span>/ mes USD</span></div>
+                    </div>
+                    
+                    <ul class="pricing-features">
+                        <li><i data-lucide="check-circle-2"></i> Todo lo del plan Starter</li>
+                        <li><i data-lucide="check-circle-2"></i> **Llamadas telefónicas entrantes y salientes**</li>
+                        <li><i data-lucide="check-circle-2"></i> Voz humana ultra realista (clonación disponible)</li>
+                        <li><i data-lucide="check-circle-2"></i> Sincronización nativa con GoHighLevel y HubSpot</li>
+                        <li><i data-lucide="check-circle-2"></i> Chats y llamadas ilimitadas</li>
+                        <li><i data-lucide="check-circle-2"></i> Setup guiado y soporte prioritario por WhatsApp</li>
+                    </ul>
+                    
+                    <button class="btn btn-primary" style="width: 100%; justify-content: center;">Comenzar Prueba</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: PREGUNTAS FRECUENTES (FAQs) -->
+        <section class="section reveal" id="faq">
+            <div class="section-header">
+                <div class="badge">FAQs</div>
+                <h2 class="section-title">Preguntas Frecuentes</h2>
+                <p class="section-desc">Todo lo que necesitas saber sobre la integración, seguridad y costos de Scarlett.</p>
+            </div>
+            
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Cómo suena la voz de Scarlett?</span>
+                        <i data-lucide="chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        La voz de Scarlett se genera utilizando modelos avanzados de síntesis de voz que clonan patrones del habla humana real. Incluye risas ligeras, respiraciones cortas y entonaciones realistas del español de Latinoamérica para que nadie note que está hablando con una Inteligencia Artificial.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Se integra con mi agenda o CRM actual?</span>
+                        <i data-lucide="chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Sí. Scarlett se conecta de manera nativa con Google Calendar, Outlook, Calendly, y CRMs líderes en marketing como GoHighLevel, HubSpot y Salesforce. Esto permite buscar espacios libres y crear citas al instante sin intervención manual.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Cómo funciona por WhatsApp e Instagram?</span>
+                        <i data-lucide="chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Para canales de texto, Scarlett se conecta a tu API oficial de WhatsApp Business o a las bandejas de entrada de Instagram y Facebook Messenger. Responde consultas frecuentes, califica prospectos interesados y les envía enlaces directos de cobro o confirmación de citas.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Hay algún costo por instalación (setup)?</span>
+                        <i data-lucide="chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        El onboarding es asistido por nuestro equipo técnico en menos de 72 horas y es completamente gratis en el plan Growth. Configuraremos tus calendarios, diseñaremos el guión personalizado de tu negocio y haremos pruebas en vivo sin cargos adicionales.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-logo">
+                Scarlett<span>.</span>
+            </div>
+            <div class="footer-copy">
+                &copy; 2026 Scarlett. Todos los derechos reservados. Diseñado por Imperio Digital.
+            </div>
+            <div class="footer-links">
+                <a href="#">Términos</a>
+                <a href="#">Privacidad</a>
+                <a href="mailto:soporte@Scarlett.ai">soporte@Scarlett.ai</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lógica de la aplicación en app.js cargada de forma estándar para evitar bloqueo CORS local -->
+    <script src="app.js"></script>
+</body>
+</html>
