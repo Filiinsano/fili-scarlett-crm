@@ -4,7 +4,7 @@
   "description": "Backend de integración de agendamiento para Scarlett AI y Vapi.ai",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node backend/server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
