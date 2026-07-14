@@ -71,17 +71,18 @@ body.dark-mode {
 }
 
 .illuminati-eye {
-    width: 20px;
-    height: 20px;
-    margin: 0 1px;
+    width: 28px;
+    height: 28px;
+    margin: 0 2px;
     color: var(--accent);
-    vertical-align: text-bottom;
+    position: relative;
+    top: -6px; /* Desalineado hacia arriba */
     animation: illuminati-glow 2s infinite alternate ease-in-out;
 }
 
 @keyframes illuminati-glow {
-    0% { filter: drop-shadow(0 0 2px var(--accent)); transform: scale(1); }
-    100% { filter: drop-shadow(0 0 8px var(--accent)); transform: scale(1.15); }
+    0% { filter: drop-shadow(0 0 2px var(--accent)); transform: scale(1) rotate(-12deg); }
+    100% { filter: drop-shadow(0 0 8px var(--accent)); transform: scale(1.2) rotate(-5deg); }
 }
 
 .sidebar-header .badge {
