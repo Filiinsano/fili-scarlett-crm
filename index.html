@@ -59,9 +59,15 @@
                 Scarlett Omnicanal ya disponible
             </div>
             
-            <h1 class="hero-title card-rise delay-2">
-                <span>Scarlett atiende tu negocio 24/7</span>
-                <span class="glow-text">sin sonar a robot</span>
+            <h1 class="hero-title card-rise delay-2" id="hero-title">
+                <!-- Se llenará dinámicamente con JS (Efecto Typewriter) -->
+                <span id="typewriter-text" class="typewriter-text"></span><span class="typewriter-cursor">|</span>
+                
+                <!-- Fallback oculto para SEO y usuarios sin JS -->
+                <noscript>
+                    <span>Scarlett atiende tu negocio 24/7</span>
+                    <span class="glow-text">sin sonar a robot</span>
+                </noscript>
             </h1>
             
             <p class="hero-desc card-rise delay-3">

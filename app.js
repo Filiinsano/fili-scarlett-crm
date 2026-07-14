@@ -709,6 +709,37 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // ==========================================
+    // 10. EFECTO DE MÁQUINA DE ESCRIBIR EN HERO
+    // ==========================================
+    const typeTextElement = document.getElementById('typewriter-text');
+    if (typeTextElement) {
+        const textToType = "Scarlett atiende tu negocio 24/7 sin sonar a robot";
+        const glowingWord = "sin sonar a robot";
+        let typeIndex = 0;
+        
+        function typeWriter() {
+            if (typeIndex < textToType.length) {
+                // Checar si entramos en la frase que va con "glow-text"
+                const currentStr = textToType.substring(0, typeIndex + 1);
+                
+                if (currentStr.includes("sin sonar a robot")) {
+                    const beforeGlow = "Scarlett atiende tu negocio 24/7 ";
+                    const glowPart = currentStr.replace(beforeGlow, "");
+                    typeTextElement.innerHTML = beforeGlow + `<span class="glow-text">${glowPart}</span>`;
+                } else {
+                    typeTextElement.innerHTML = currentStr;
+                }
+                
+                typeIndex++;
+                setTimeout(typeWriter, Math.random() * 30 + 40); // Velocidad aleatoria para parecer más humano
+            }
+        }
+        
+        // Retraso inicial para que la animación empiece después de que cargue la página
+        setTimeout(typeWriter, 800);
+    }
+
     // Iniciar por primera vez en el nicho por defecto
     cambiarNicho('dentistas');
 });

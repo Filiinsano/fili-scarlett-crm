@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview Efecto Máquina de Escribir</title>
+    <style>
+        body {
+            background-color: #0f172a; /* Dark background */
+            color: #f8fafc;
+            font-family: 'Inter', system-ui, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .hero {
+            text-align: center;
+            max-width: 800px;
+            padding: 20px;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(230, 80, 30, 0.15);
+            color: #e6501e;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        .section-title {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.03em;
+            min-height: 110px; /* Previene saltos al escribir */
+        }
+        .typewriter-text {
+            border-right: 3px solid #e6501e;
+            white-space: pre-wrap;
+            animation: blink-caret 0.75s step-end infinite;
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #e6501e; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="badge">Efecto Visual Propuesto</div>
+        <h1 class="section-title">
+            <span class="typewriter-text" id="typewriter"></span>
+        </h1>
+    </div>
+
+    <script>
+        const text = "Tu Asistente de IA Omnicanal que no suena a robot";
+        const element = document.getElementById('typewriter');
+        let index = 0;
+
+        function type() {
+            if (index < text.length) {
+                element.innerHTML += text.charAt(index);
+                index++;
+                setTimeout(type, 50); // Velocidad de escritura
+            }
+        }
+        
+        // Retraso inicial para dar tiempo a grabar
+        setTimeout(type, 500);
+    </script>
+</body>
+</html>
