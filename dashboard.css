@@ -70,6 +70,20 @@ body.dark-mode {
     color: var(--accent);
 }
 
+.illuminati-eye {
+    width: 20px;
+    height: 20px;
+    margin: 0 1px;
+    color: var(--accent);
+    vertical-align: text-bottom;
+    animation: illuminati-glow 2s infinite alternate ease-in-out;
+}
+
+@keyframes illuminati-glow {
+    0% { filter: drop-shadow(0 0 2px var(--accent)); transform: scale(1); }
+    100% { filter: drop-shadow(0 0 8px var(--accent)); transform: scale(1.15); }
+}
+
 .sidebar-header .badge {
     background-color: var(--accent-glow);
     color: var(--accent);
