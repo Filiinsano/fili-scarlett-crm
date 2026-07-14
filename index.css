@@ -1370,6 +1370,15 @@ a {
 }
 
 /* ==========================================
+   17. MICRO-INTERACCIONES 3D (TILT CARDS)
+   ========================================== */
+.tilt-card {
+    transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+/* ==========================================
    16. MEDIA QUERIES RESPONSIVAS PARA NAVBAR
    ========================================== */
 @media (max-width: 992px) {

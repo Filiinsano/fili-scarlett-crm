@@ -681,6 +681,34 @@ document.addEventListener('DOMContentLoaded', () => {
         fluidBg.style.opacity = opacity;
     });
 
+    // ==========================================
+    // 9. LÓGICA DE MICRO-INTERACCIONES 3D (TILT CARDS)
+    // ==========================================
+    const tiltCards = document.querySelectorAll('.tilt-card');
+    
+    tiltCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left; // Posición X dentro de la tarjeta
+            const y = e.clientY - rect.top;  // Posición Y dentro de la tarjeta
+            
+            // Calculamos el centro de la tarjeta
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            // Calculamos la rotación (mientras más lejos del centro, más rota)
+            // Multiplicador ajusta la intensidad del efecto 3D
+            const rotateX = ((y - centerY) / centerY) * -10; 
+            const rotateY = ((x - centerX) / centerX) * 10;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        });
+    });
+
     // Iniciar por primera vez en el nicho por defecto
     cambiarNicho('dentistas');
 });
