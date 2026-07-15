@@ -35,8 +35,8 @@
             </nav>
 
             <div class="sidebar-footer">
-                <a href="index.html" class="back-link">
-                    <i data-lucide="arrow-left"></i> Volver a la Web
+                <a href="#" class="back-link" id="logout-btn">
+                    <i data-lucide="log-out"></i> Cerrar Sesión
                 </a>
             </div>
         </aside>
@@ -49,7 +49,10 @@
                     <h1 id="tab-title">Resumen General</h1>
                     <p id="tab-subtitle">Monitoreo de recepcionista de IA en tiempo real</p>
                 </div>
-                <div class="header-actions">
+                <div class="header-actions" style="display: flex; align-items: center; gap: 16px;">
+                    <div class="client-greeting" style="font-weight: 500; font-size: 14px;">
+                        Bienvenido, <span id="client-name-display" style="color: var(--accent);">Admin</span>
+                    </div>
                     <div class="status-indicator online">
                         <span class="pulse-dot"></span>
                         Fili (IA) Online

@@ -6,6 +6,31 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inicializar iconos de Lucide
     lucide.createIcons();
 
+    // ==========================================
+    // AUTH CHECK (Multi-Cliente)
+    // ==========================================
+    const currentClientId = localStorage.getItem('currentClientId');
+    const currentClientName = localStorage.getItem('currentClientName');
+    
+    if (!currentClientId) {
+        window.location.href = 'login.html';
+        return; // Detener ejecución
+    }
+    
+    // Configurar saludo y logout
+    const nameDisplay = document.getElementById('client-name-display');
+    if (nameDisplay) nameDisplay.textContent = currentClientName;
+    
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('currentClientId');
+            localStorage.removeItem('currentClientName');
+            window.location.href = 'login.html';
+        });
+    }
+
     const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
         ? 'http://localhost:3000'
         : (window.location.protocol === 'file:')
@@ -128,6 +153,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (e) {
             console.log("No se pudo conectar al backend para cargar llamadas. Usando datos de simulación.");
+        }
+
+        // Filtro Multi-Cliente: Si no es admin, limpiar arrays para mostrar solo lo suyo
+        if (currentClientId !== 'admin') {
+            citasGlobal = citasGlobal.filter(c => c.nicho === currentClientId);
+            llamadasGlobal = llamadasGlobal.filter(l => l.nicho === currentClientId);
+            
+            // Ocultar selectores de nicho si los hubiera para evitar que el cliente cambie de vista
+            const filterNicho = document.getElementById('filter-nicho');
+            if(filterNicho) filterNicho.style.display = 'none';
         }
 
         // Renderizar todo
