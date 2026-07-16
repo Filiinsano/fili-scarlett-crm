@@ -306,15 +306,19 @@ app.post('/webhook/estado-llamada', async (req, res) => {
         console.log(`Grabación de Audio: ${recordingUrl}`);
         console.log("==========================================");
 
+        // Mapeo básico Multi-Cliente: Si tuviéramos varios agentes, cruzaríamos agent_id con la base de datos.
+        // Como ahorita es el de prueba, lo asignamos a 'admin' para que siempre lo veas en tu sesión maestra.
+        const nichoAsignado = callData.agent_id === AGENT_ID ? "admin" : "dentista@demo.com";
+
         // Guardar llamada real en llamadas.json
         const llamadas = readDataFile(llamadasFilePath);
         const nuevaLlamada = {
             id: llamadas.length > 0 ? Math.max(...llamadas.map(l => l.id)) + 1 : 1,
             fecha: new Date().toISOString(),
             duracion: `${durationSec}s`,
-            nicho: "dentistas",
+            nicho: nichoAsignado,
             grabacion: recordingUrl || "https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg",
-            resumen: summary || "Conversación con paciente sobre citas o consultas dentales.",
+            resumen: summary || "Conversación telefónica gestionada por la IA.",
             transcripcion: formattedTranscript
         };
         
