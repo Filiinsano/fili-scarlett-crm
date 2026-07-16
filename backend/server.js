@@ -287,7 +287,8 @@ app.post('/webhook/estado-llamada', async (req, res) => {
     const payload = req.body;
     console.log("Evento recibido de Retell:", payload.event);
     
-    if (payload.event === 'call_ended') {
+    // En Retell V2, 'call_analyzed' es el evento que trae el resumen final y la grabación completa.
+    if (payload.event === 'call_ended' || payload.event === 'call_analyzed') {
         const callData = payload.call;
         const recordingUrl = callData.recording_url;
         const summary = callData.call_analysis?.call_summary;
