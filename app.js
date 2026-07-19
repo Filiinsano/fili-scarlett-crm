@@ -346,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         bubble.classList.add('voice-line');
                         bubble.classList.add(esBot ? 'voice-bot' : 'voice-caller');
                         
-                        const speakerName = esBot ? 'Fili (IA)' : 'Tú';
+                        const speakerName = esBot ? 'Mateo (IA)' : 'Tú';
                         bubble.innerHTML = `<strong>${speakerName}:</strong> ${msg.content}`;
                         
                         voiceTranscript.appendChild(bubble);
@@ -476,7 +476,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bubble.classList.add('voice-line');
         bubble.classList.add(esBot ? 'voice-bot' : 'voice-caller');
         
-        const speakerName = esBot ? 'Fili (IA)' : 'Cliente';
+        const speakerName = esBot ? 'Mateo (IA)' : 'Cliente';
         bubble.innerHTML = `<strong>${speakerName}:</strong> ${linea.text}`;
         
         voiceTranscript.appendChild(bubble);
