@@ -294,6 +294,12 @@ app.post('/webhook/estado-llamada', async (req, res) => {
         const summary = callData.call_analysis?.call_summary;
         const durationSec = callData.duration_ms ? Math.round(callData.duration_ms / 1000) : 0;
         
+        // EXTRAER DATOS PERSONALIZADOS DE RETELL (Para el Kanban)
+        const customData = callData.call_analysis?.custom_analysis_data || {};
+        const nombreCliente = customData.nombre_cliente || "Cliente Nuevo";
+        const telefonoCliente = customData.telefono_cliente || callData.user_phone_number || callData.from_number || "Sin teléfono";
+        const servicioDeseado = customData.servicio_deseado || "Atención General";
+        
         // Formatear transcripción para que sea legible
         const retellTranscript = callData.transcript_object || [];
         const formattedTranscript = retellTranscript.map(line => ({
@@ -327,17 +333,27 @@ app.post('/webhook/estado-llamada', async (req, res) => {
         writeDataFile(llamadasFilePath, llamadas);
         console.log(`[Base de Datos] Historial de llamada guardado: ID ${nuevaLlamada.id}`);
 
-        // DISPARAR NOTIFICACIÓN DE CONFIRMACIÓN POR WHATSAPP
-        const userPhone = callData.user_phone_number || callData.from_number || '+525512345678';
-        let clientName = "Paciente";
-        
-        // Obtener el nombre del último agendamiento si coincide
+        // CREAR NUEVO LEAD EN EL PIPELINE KANBAN (citas.json)
         const citas = readDataFile(citasFilePath);
-        if (citas.length > 0) {
-            clientName = citas[citas.length - 1].nombre;
-        }
+        const nuevoLead = {
+            id: citas.length > 0 ? Math.max(...citas.map(c => c.id)) + 1 : 1,
+            nombre: nombreCliente,
+            servicio: servicioDeseado,
+            fecha: new Date().toISOString().split('T')[0],
+            hora: new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
+            nicho: nichoAsignado,
+            estado: "Nuevo",
+            estado_kanban: "Nuevo",
+            telefono: telefonoCliente
+        };
+        
+        citas.push(nuevoLead);
+        writeDataFile(citasFilePath, citas);
+        console.log(`[Base de Datos] Nuevo Lead en CRM: ${nombreCliente} - ${servicioDeseado}`);
 
-        const msgConfirmacion = `¡Hola ${clientName}! Confirmamos tu cita dental agendada el día de hoy. Resumen de la IA: "${nuevaLlamada.resumen}". Dirección: Av. Universidad 123, Ciudad de México. ¡Gracias por confiar en Scarlett!`;
+        // DISPARAR NOTIFICACIÓN DE CONFIRMACIÓN POR WHATSAPP
+        const userPhone = telefonoCliente;
+        const msgConfirmacion = `¡Hola ${nombreCliente}! Hemos registrado tu interés por "${servicioDeseado}". Resumen de la IA: "${nuevaLlamada.resumen}". Nos pondremos en contacto muy pronto. ¡Gracias por confiar en Scarlett!`;
         
         // Ejecutar en segundo plano sin bloquear la respuesta de Retell
         enviarMensajeWhatsApp(userPhone, msgConfirmacion);

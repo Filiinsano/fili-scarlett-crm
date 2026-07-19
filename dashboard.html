@@ -23,6 +23,9 @@
                 <button class="nav-btn active" data-tab="overview">
                     <i data-lucide="layout-dashboard"></i> Resumen General
                 </button>
+                <button class="nav-btn" data-tab="pipeline">
+                    <i data-lucide="kanban"></i> Pipeline de Ventas
+                </button>
                 <button class="nav-btn" data-tab="citas">
                     <i data-lucide="calendar"></i> Citas Agendadas
                 </button>
@@ -267,6 +270,45 @@
                             <button class="btn btn-primary" id="btn-save-prompt" style="width: auto; padding: 12px 24px;">
                                 <i data-lucide="save"></i> Guardar Cambios
                             </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTENIDO DE PESTAÑA: PIPELINE KANBAN -->
+            <div class="tab-content" id="tab-pipeline">
+                <div class="pipeline-header">
+                    <h2>Embudo de Ventas (Pipeline)</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 24px;">Arrastra y suelta a los prospectos para darles seguimiento</p>
+                </div>
+                
+                <div class="kanban-board">
+                    <!-- Columna 1 -->
+                    <div class="kanban-column" data-status="Nuevo">
+                        <div class="kanban-column-header new">Nuevos Leads</div>
+                        <div class="kanban-cards-container" id="kanban-col-nuevo">
+                            <!-- Tarjetas dinámicas -->
+                        </div>
+                    </div>
+                    <!-- Columna 2 -->
+                    <div class="kanban-column" data-status="Contactado">
+                        <div class="kanban-column-header contacted">Contactados</div>
+                        <div class="kanban-cards-container" id="kanban-col-contactado">
+                            <!-- Tarjetas dinámicas -->
+                        </div>
+                    </div>
+                    <!-- Columna 3 -->
+                    <div class="kanban-column" data-status="Negociacion">
+                        <div class="kanban-column-header negotiation">En Negociación</div>
+                        <div class="kanban-cards-container" id="kanban-col-negociacion">
+                            <!-- Tarjetas dinámicas -->
+                        </div>
+                    </div>
+                    <!-- Columna 4 -->
+                    <div class="kanban-column" data-status="Cerrado">
+                        <div class="kanban-column-header closed">Citas Cerradas</div>
+                        <div class="kanban-cards-container" id="kanban-col-cerrado">
+                            <!-- Tarjetas dinámicas -->
                         </div>
                     </div>
                 </div>

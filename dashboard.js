@@ -119,6 +119,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (tabId === 'llamadas') {
             titleEl.textContent = "Registro de Llamadas";
             subtitleEl.textContent = "Escucha las grabaciones e inspecciona los diálogos de la IA";
+        } else if (tabId === 'pipeline') {
+            titleEl.textContent = "Pipeline de Ventas";
+            subtitleEl.textContent = "Gestiona y da seguimiento a tus leads visualmente";
         }
     }
 
@@ -169,6 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderizarResumen();
         renderizarCitas();
         renderizarLlamadas();
+        renderizarPipeline();
     }
 
     // ==========================================
@@ -537,6 +541,83 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 saveStatus.style.opacity = "0";
             }, 3000);
+        });
+    }
+
+    // ==========================================
+    // 5. RENDERIZACIÓN DE PIPELINE KANBAN
+    // ==========================================
+    function renderizarPipeline() {
+        const columns = {
+            'Nuevo': document.getElementById('kanban-col-nuevo'),
+            'Contactado': document.getElementById('kanban-col-contactado'),
+            'Negociacion': document.getElementById('kanban-col-negociacion'),
+            'Cerrado': document.getElementById('kanban-col-cerrado')
+        };
+
+        // Limpiar columnas
+        Object.values(columns).forEach(col => { if(col) col.innerHTML = ''; });
+
+        // Renderizar usando citasGlobal (Mock o Reales)
+        citasGlobal.forEach(cita => {
+            const status = cita.estado_kanban || (cita.estado === 'Confirmada' ? 'Cerrado' : 'Nuevo');
+            const col = columns[status] || columns['Nuevo'];
+            if (!col) return;
+
+            const card = document.createElement('div');
+            card.className = 'kanban-card';
+            card.draggable = true;
+            card.dataset.id = cita.id;
+
+            card.innerHTML = `
+                <div class="kanban-card-title">${cita.nombre}</div>
+                <div class="kanban-card-service">
+                    <i data-lucide="tag" style="width: 14px; height: 14px;"></i> 
+                    ${cita.servicio}
+                </div>
+                <div class="kanban-card-actions">
+                    <button class="kanban-btn-wa" onclick="window.open('https://wa.me/5211234567890', '_blank')">
+                        <i data-lucide="message-circle" style="width: 14px; height: 14px;"></i> WhatsApp
+                    </button>
+                </div>
+            `;
+
+            // Eventos Drag & Drop
+            card.addEventListener('dragstart', (e) => {
+                card.classList.add('dragging');
+                e.dataTransfer.setData('text/plain', cita.id);
+            });
+
+            card.addEventListener('dragend', () => {
+                card.classList.remove('dragging');
+            });
+
+            col.appendChild(card);
+        });
+
+        lucide.createIcons();
+        setupDragAndDrop();
+    }
+
+    function setupDragAndDrop() {
+        const containers = document.querySelectorAll('.kanban-cards-container');
+        
+        containers.forEach(container => {
+            container.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                container.classList.add('drag-over');
+                const draggingCard = document.querySelector('.dragging');
+                if (draggingCard) container.appendChild(draggingCard);
+            });
+
+            container.addEventListener('dragleave', () => {
+                container.classList.remove('drag-over');
+            });
+
+            container.addEventListener('drop', (e) => {
+                e.preventDefault();
+                container.classList.remove('drag-over');
+            });
         });
     }
 
