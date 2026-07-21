@@ -35,7 +35,13 @@ const AGENT_ID = 'agent_1acf0831608f99ab3c87a7052b'; // ID de Fili
 // ==========================================
 let db;
 try {
-    const serviceAccount = require('./config/firebase-key.json');
+    let serviceAccount;
+    if (process.env.FIREBASE_CREDENTIALS) {
+        serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
+    } else {
+        serviceAccount = require('./config/firebase-key.json');
+    }
+    
     initializeApp({
       credential: cert(serviceAccount)
     });
