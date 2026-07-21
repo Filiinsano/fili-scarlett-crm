@@ -1,4 +1,5 @@
 node_modules/
 backend/data/
 .env
+backend/config/firebase-key.json
 *.log

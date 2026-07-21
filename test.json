@@ -1,0 +1,11 @@
+{
+    "event": "call_ended",
+    "call": {
+        "agent_id": "agent_1acf0831608f99ab3c87a7052b",
+        "recording_url": "test_url",
+        "duration_ms": 5000,
+        "call_analysis": {
+            "call_summary": "Test call summary"
+        }
+    }
+}
