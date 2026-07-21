@@ -194,10 +194,11 @@ app.post('/webhook/agendar', async (req, res) => {
             
             if (functionName === 'agendar_cita' || functionName === 'book_appointment') {
                 const { nombre, fecha, hora, servicio } = args;
+                const callId = payload.call?.call_id || Date.now().toString();
                 
                 // Guardar en FIREBASE
                 if (db) {
-                    await db.collection('citas').add({
+                    await db.collection('citas').doc(callId).set({
                         nombre,
                         servicio,
                         fecha,
@@ -206,7 +207,7 @@ app.post('/webhook/agendar', async (req, res) => {
                         estado: "Confirmada",
                         estado_kanban: "Confirmada",
                         creadoEn: new Date().toISOString()
-                    });
+                    }, { merge: true });
                 }
                 
                 return res.status(200).json({
@@ -246,27 +247,37 @@ app.post('/webhook/estado-llamada', async (req, res) => {
 
         // Guardar llamada en FIREBASE
         if (db) {
-            await db.collection('llamadas').add({
+            const callId = callData.call_id || Date.now().toString();
+            
+            await db.collection('llamadas').doc(callId).set({
                 fecha: new Date().toISOString(),
                 duracion: `${durationSec}s`,
                 nicho: nichoAsignado,
                 grabacion: recordingUrl || "https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg",
                 resumen: summary || "Conversación gestionada por la IA.",
                 transcripcion: formattedTranscript
-            });
+            }, { merge: true });
 
-            // Guardar el LEAD en Firebase para el Kanban
-            await db.collection('citas').add({
-                nombre: nombreCliente,
-                servicio: servicioDeseado,
-                fecha: new Date().toISOString().split('T')[0],
-                hora: new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
-                nicho: nichoAsignado,
-                estado: "Nuevo",
-                estado_kanban: "Nuevo",
-                telefono: telefonoCliente,
-                creadoEn: new Date().toISOString()
-            });
+            // Guardar el LEAD en Firebase para el Kanban SOLO si no se agendó cita antes
+            const docRef = db.collection('citas').doc(callId);
+            const docSnap = await docRef.get();
+            
+            if (!docSnap.exists) {
+                await docRef.set({
+                    nombre: nombreCliente,
+                    servicio: servicioDeseado,
+                    fecha: new Date().toISOString().split('T')[0],
+                    hora: new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
+                    nicho: nichoAsignado,
+                    estado: "Nuevo",
+                    estado_kanban: "Nuevo",
+                    telefono: telefonoCliente,
+                    creadoEn: new Date().toISOString()
+                });
+            } else {
+                // Si ya existe (porque agendó en la llamada), solo actualizamos su teléfono
+                await docRef.set({ telefono: telefonoCliente }, { merge: true });
+            }
         }
 
         const msgConfirmacion = `¡Hola ${nombreCliente}! Hemos registrado tu interés por "${servicioDeseado}". Resumen de la IA: "${summary}". Nos pondremos en contacto muy pronto. ¡Gracias por confiar en Scarlett!`;
