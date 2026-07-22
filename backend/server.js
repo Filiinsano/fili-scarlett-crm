@@ -15,6 +15,7 @@ const fs = require('fs');
 const path = require('path');
 const { initializeApp, cert } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
+const { google } = require('googleapis');
 
 const app = express();
 app.use(cors());
@@ -31,22 +32,38 @@ const RETELL_API_KEY = process.env.RETELL_API_KEY || 'key_28826c026b3e82144b8920
 const AGENT_ID = 'agent_1acf0831608f99ab3c87a7052b'; // ID de Fili
 
 // ==========================================
-// INICIALIZAR FIREBASE ADMIN SDK
+// INICIALIZAR FIREBASE Y GOOGLE CALENDAR SDK
 // ==========================================
 let db;
+let calendarAPI;
+const CALENDAR_ID = 'felipehernandes630@gmail.com';
+
 try {
     let serviceAccount;
+    let googleAuth;
     if (process.env.FIREBASE_CREDENTIALS) {
         serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
+        googleAuth = new google.auth.JWT(
+            serviceAccount.client_email,
+            null,
+            serviceAccount.private_key,
+            ['https://www.googleapis.com/auth/calendar.events']
+        );
     } else {
         serviceAccount = require('./config/firebase-key.json');
+        googleAuth = new google.auth.GoogleAuth({
+            keyFile: './config/firebase-key.json',
+            scopes: ['https://www.googleapis.com/auth/calendar.events']
+        });
     }
     
     initializeApp({
       credential: cert(serviceAccount)
     });
     db = getFirestore();
-    console.log("🔥 Firebase conectado exitosamente. Memoria permanente activada.");
+    calendarAPI = google.calendar({ version: 'v3', auth: googleAuth });
+    
+    console.log("🔥 Firebase y Google Calendar conectados exitosamente. Memoria permanente activada.");
 } catch (error) {
     console.error("❌ Error al conectar con Firebase. Asegúrate de que backend/config/firebase-key.json exista.", error);
 }
@@ -209,6 +226,26 @@ app.post('/webhook/agendar', async (req, res) => {
                         creadoEn: new Date().toISOString()
                     }, { merge: true });
                 }
+
+                // Guardar en GOOGLE CALENDAR
+                if (calendarAPI && fecha && hora && fecha !== "Por definir" && hora !== "Por definir") {
+                    try {
+                        const startTime = new Date(`${fecha}T${hora}:00-06:00`);
+                        const endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // 1 hora
+                        
+                        await calendarAPI.events.insert({
+                            calendarId: CALENDAR_ID,
+                            resource: {
+                                summary: `🦷 Cita de ${nombre}`,
+                                description: `Servicio: ${servicio}\nAgendada por Scarlett AI.`,
+                                start: { dateTime: startTime.toISOString(), timeZone: 'America/Mexico_City' },
+                                end: { dateTime: endTime.toISOString(), timeZone: 'America/Mexico_City' }
+                            }
+                        });
+                    } catch (gcalError) {
+                        console.error("Error agendando en Google Calendar:", gcalError);
+                    }
+                }
                 
                 return res.status(200).json({
                     output: `Perfecto ${nombre}, tu cita para ${servicio} ha quedado agendada con éxito el día ${fecha} a las ${hora}.`
@@ -218,6 +255,57 @@ app.post('/webhook/agendar', async (req, res) => {
         res.status(400).json({ error: "Herramienta no reconocida." });
     } catch (error) {
         res.status(500).json({ error: "Error interno al procesar el agendamiento." });
+    }
+});
+
+// ==========================================
+// 4.5. WEBHOOK PARA CONSULTAR DISPONIBILIDAD (Google Calendar)
+// ==========================================
+app.post('/webhook/consultar-disponibilidad', async (req, res) => {
+    const payload = req.body;
+    try {
+        const toolCalls = payload.tool_calls;
+        if (toolCalls && toolCalls.length > 0) {
+            const toolCall = toolCalls[0];
+            const functionName = toolCall.function.name;
+            const args = JSON.parse(toolCall.function.arguments);
+            
+            if (functionName === 'check_calendar') {
+                const { fecha } = args; // Ej: "2026-07-23"
+                if (calendarAPI) {
+                    try {
+                        const startOfDay = new Date(`${fecha}T00:00:00-06:00`);
+                        const endOfDay = new Date(`${fecha}T23:59:59-06:00`);
+                        
+                        const response = await calendarAPI.events.list({
+                            calendarId: CALENDAR_ID,
+                            timeMin: startOfDay.toISOString(),
+                            timeMax: endOfDay.toISOString(),
+                            singleEvents: true,
+                            orderBy: 'startTime'
+                        });
+                        
+                        const events = response.data.items;
+                        if (!events || events.length === 0) {
+                            return res.status(200).json({ output: `El día ${fecha} está completamente libre.` });
+                        } else {
+                            const ocupados = events.map(e => {
+                                const start = new Date(e.start.dateTime || e.start.date).toLocaleTimeString('es-ES', {hour: '2-digit', minute:'2-digit'});
+                                const end = new Date(e.end.dateTime || e.end.date).toLocaleTimeString('es-ES', {hour: '2-digit', minute:'2-digit'});
+                                return `De ${start} a ${end}`;
+                            }).join(', ');
+                            return res.status(200).json({ output: `El día ${fecha} tienes estos horarios Ocupados: ${ocupados}. El resto del día está disponible para agendar citas de 1 hora.` });
+                        }
+                    } catch (gcalError) {
+                        return res.status(200).json({ output: `Error leyendo el calendario. Asume que está libre.` });
+                    }
+                }
+                return res.status(200).json({ output: "El calendario no está conectado." });
+            }
+        }
+        res.status(400).json({ error: "Herramienta no reconocida." });
+    } catch (error) {
+        res.status(500).json({ error: "Error consultando disponibilidad." });
     }
 });
 
