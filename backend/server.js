@@ -199,10 +199,10 @@ app.post('/webhook/agendar', async (req, res) => {
                 // Guardar en FIREBASE
                 if (db) {
                     await db.collection('citas').doc(callId).set({
-                        nombre,
-                        servicio,
-                        fecha,
-                        hora,
+                        nombre: nombre || "Sin Nombre",
+                        servicio: servicio || "Atención General",
+                        fecha: fecha || "Por definir",
+                        hora: hora || "Por definir",
                         nicho: "dentistas",
                         estado: "Confirmada",
                         estado_kanban: "Confirmada",
